@@ -12,6 +12,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Exports\ProductExporter;
+use Filament\Actions\Exports\Enums\ExportFormat;
+use Filament\Tables\Actions\ExportBulkAction;
 
 class ProductResource extends Resource
 {
@@ -27,14 +30,17 @@ class ProductResource extends Resource
                 ->relationship('categories','description')
                 ->required()
                 ->searchable()
-                ->preload(),
+                ->preload()
+                ->label('Categorias'),
                 Forms\Components\TextInput::make('description')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('Descripcion'),
                 Forms\Components\TextInput::make('price')
                     ->required()
                     ->numeric()
-                    ->prefix('$'),
+                    ->prefix('$')
+                    ->label('Precio'),
                 Forms\Components\TextInput::make('stock')
                     ->required()
                     ->numeric()
@@ -47,16 +53,19 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('description')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Descripcion'),
                 Tables\Columns\TextColumn::make('price')
                     ->money()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('Precio'),
                 Tables\Columns\TextColumn::make('stock')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('categories.description')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('Categorias'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -81,6 +90,15 @@ class ProductResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+
+                    ExportBulkAction::make()
+                    ->exporter(ProductExporter::class)
+                    ->formats([
+                        ExportFormat::Xlsx,
+                        ExportFormat::Csv,
+                        
+                    ])
+                    
                 ]),
             ]);
     }

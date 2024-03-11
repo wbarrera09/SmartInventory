@@ -15,7 +15,8 @@ class DatabaseSeeder extends Seeder
 
     // Comentar para desactivar
     {
-         \App\Models\User::factory(60)->create();
+         \App\Models\User::factory(3)->create();
+         
 
          //\App\Models\User::factory()->create([
          //    'name' => 'Test User',

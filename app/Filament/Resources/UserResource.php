@@ -38,14 +38,18 @@ class UserResource extends Resource
                 TextInput::make('name')
                 ->label('Nombre')
                 ->required(),
+
                 TextInput::make('email')
                 ->label('Correo')
                 ->email()
                 ->required(),
+
                 TextInput::make('password')
+                ->label('Contraseña')
+                ->hiddenOn('edit')
                 ->password()
-                ->required()
-                ->hiddenOn('edit'), 
+                ->revealable()
+                ->required(),
             
                 //
             ]);
@@ -66,9 +70,10 @@ class UserResource extends Resource
                 ->searchable()
                 ->sortable(),
                 TextColumn::make('created_at')
-                ->label('Creado')
+                ->label('Fecha Creación')
                 ->searchable()
-                ->sortable(),
+                ->sortable()
+                
 
 
                 //Los campos mencionados anteriormente funcionan desde la tabla Users y mostrarlos
@@ -90,7 +95,9 @@ class UserResource extends Resource
                     ExportBulkAction::make()
                     ->exporter(UsersExporter::class)
                     ->formats([
+                        ExportFormat::Xlsx,
                         ExportFormat::Csv,
+                        
                     ])
 
                 ]),
