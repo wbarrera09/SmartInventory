@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+// Importaciones de clases y middlewares necesarios
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -19,37 +20,39 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
+// Definición del proveedor de panel
 class AdminPanelProvider extends PanelProvider
 {
+    // Método para configurar el panel de administración
     public function panel(Panel $panel): Panel
     {
         return $panel
             ->default()
-            ->id('admin')
-            ->path('admin')
-            ->login()
-            ->registration()
-            ->databaseNotifications() //necesario para poder agregar el panel de notificaciones
-            ->userMenuItems([
+            ->id('admin') // ID del panel
+            ->path('admin') // Ruta del panel
+            ->login() // Habilitar la función de inicio de sesión
+            ->registration() // Habilitar el registro de usuarios
+            ->databaseNotifications() // Habilitar notificaciones de base de datos
+            ->userMenuItems([ // Ítem del menú del usuario
                 MenuItem::make()
                 ->label('Admin')
-                ->icon('heroicon-o-cog-6-tooth')
-                ->url('/admin')
+                ->icon('heroicon-o-cog-6-tooth') // Icono del menú
+                ->url('/admin') // URL del menú
             ])
-            ->colors([
-                'primary' => Color::Blue,
+            ->colors([ // Definir colores
+                'primary' => Color::Blue, // Color primario
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
-            ->pages([
-                Pages\Dashboard::class,
+            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources') // Descubrir recursos
+            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages') // Descubrir páginas
+            ->pages([ // Definir páginas
+                Pages\Dashboard::class, // Página del panel de control
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            ->widgets([
-                Widgets\AccountWidget::class,
-                //Widgets\FilamentInfoWidget::class,
+            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets') // Descubrir widgets
+            ->widgets([ // Definir widgets
+                Widgets\AccountWidget::class, // Widget de cuenta
+                //Widgets\FilamentInfoWidget::class, // Opcional: Widget de información de Filament
             ])
-            ->middleware([
+            ->middleware([ // Middleware global
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,
@@ -60,8 +63,8 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->authMiddleware([
-                Authenticate::class,
+            ->authMiddleware([ // Middleware de autenticación
+                Authenticate::class, // Middleware de autenticación de Filament
             ]);
     }
 }

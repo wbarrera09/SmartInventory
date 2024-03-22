@@ -2,7 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Foundation\Http\Middleware\TrimStrings as Middleware;
+// Importa la clase base de middleware para recortar cadenas
+use Illuminate\Foundation\Http\Middleware\TrimStrings as Middleware; 
 
 class TrimStrings extends Middleware
 {

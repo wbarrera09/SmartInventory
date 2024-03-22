@@ -2,8 +2,8 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Throwable;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler; // Importa la clase base de manejo de excepciones
+use Throwable; // Importa la clase Throwable para manejar cualquier tipo de excepción
 
 class Handler extends ExceptionHandler
 {
@@ -23,8 +23,12 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
+        // Esta función se utiliza para registrar los callbacks de manejo de excepciones para la aplicación.
+
+        // El callback reportable se utiliza para informar sobre las excepciones que ocurren durante la ejecución de la aplicación.
         $this->reportable(function (Throwable $e) {
-            //
+            // Aquí se puede personalizar la lógica de manejo de excepciones.
+            // En este caso, el callback está vacío, lo que significa que no se realiza ninguna acción específica cuando ocurre una excepción.
         });
     }
 }

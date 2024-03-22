@@ -9,13 +9,23 @@ class Product extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = ['description', 'price', 'stock', 'categories_id'];
-    // protected $guarded = [];
-    // se utiliza al igual que protected para salvaguardar de inyecciones masivas de datos
 
+    /**
+     * Define a relationship with the Category model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function categories()
     {
+        // Define una relación de pertenencia a uno con el modelo Category.
+        // Esto indica que un producto pertenece a una categoría.
+        // El segundo parámetro en la función belongsTo indica la clave externa en la tabla de productos que referencia la clave primaria de la categoría.
         return $this->belongsTo(Category::class, 'categories_id');
     }
-
 }

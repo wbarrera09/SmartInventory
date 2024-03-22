@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+// Importaciones de traits y clases necesarias
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+// Definición del modelo User que extiende Authenticatable
 class User extends Authenticatable
 {
+    // Uso de traits
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -18,9 +20,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'name',     // Nombre del usuario
+        'email',    // Correo electrónico del usuario
+        'password', // Contraseña del usuario
     ];
 
     /**
@@ -29,8 +31,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+        'password',        // Oculta la contraseña
+        'remember_token',  // Oculta el token de recordar sesión
     ];
 
     /**
@@ -39,7 +41,7 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        'email_verified_at' => 'datetime', // Convierte el atributo 'email_verified_at' a tipo datetime
+        'password' => 'hashed',             // Hashea el atributo 'password'
     ];
 }

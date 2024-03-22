@@ -2,7 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Routing\Middleware\ValidateSignature as Middleware;
+// Importa la clase base de middleware para validar la firma
+use Illuminate\Routing\Middleware\ValidateSignature as Middleware; 
 
 class ValidateSignature extends Middleware
 {
@@ -18,5 +19,8 @@ class ValidateSignature extends Middleware
         // 'utm_medium',
         // 'utm_source',
         // 'utm_term',
+
+
+        
     ];
 }
