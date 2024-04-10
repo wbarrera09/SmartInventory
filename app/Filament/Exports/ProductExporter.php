@@ -18,7 +18,10 @@ class ProductExporter extends Exporter
         return [
             ExportColumn::make('id', 'id'), // Columna de exportación para el ID de producto
             ExportColumn::make('description', 'description'), // Columna de exportación para la descripción de producto
-            ExportColumn::make('price', 'price'), // Columna de exportación para el precio de producto
+            
+           ExportColumn::make('price', 'price'), // Columna de exportación para el precio de producto
+
+            
             ExportColumn::make('categories_id', 'categories_id'), // Columna de exportación para el ID de categoría asociado al producto
             ExportColumn::make('created_at', 'created_at'), // Columna de exportación para la fecha de creación
             ExportColumn::make('updated_at', 'updated_at'), // Columna de exportación para la fecha de actualización

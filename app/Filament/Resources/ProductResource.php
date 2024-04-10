@@ -13,8 +13,16 @@ use Filament\Tables\Table; // Importa la clase Table de Filament para la constru
 use Illuminate\Database\Eloquent\Builder; // Importa la clase Builder para consultas Eloquent
 use Illuminate\Database\Eloquent\SoftDeletingScope; // Importa el alcance de eliminación suave de Eloquent
 use App\Filament\Exports\ProductExporter; // Importa el exportador de productos personalizado
+use App\Models\Category;
+use DeepCopy\Filter\Filter as FilterFilter;
 use Filament\Actions\Exports\Enums\ExportFormat; // Importa el formato de exportación de Filament
 use Filament\Tables\Actions\ExportBulkAction; // Importa la acción de exportación masiva de Filament
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Forms\Components\DatePicker;
+// use Filament\Tables\Enums\FiltersLayout;
+// se utiliza para poder colocar los filtros encima de la tabla, actualmente en exploracion
+
 
 class ProductResource extends Resource
 {
@@ -62,9 +70,11 @@ class ProductResource extends Resource
                     ->money() // Muestra el valor como un monto monetario
                     ->sortable() // Permite ordenar los resultados por esta columna
                     ->label('Precio'), // Etiqueta de la columna
+
                 Tables\Columns\TextColumn::make('stock') // Columna para mostrar el stock del producto
                     ->numeric() // Muestra el valor como numérico
                     ->sortable(), // Permite ordenar los resultados por esta columna
+                    
                 Tables\Columns\TextColumn::make('categories.description') // Columna para mostrar la descripción de la categoría del producto
                     ->numeric() // Muestra el valor como numérico
                     ->sortable() // Permite ordenar los resultados por esta columna
@@ -79,8 +89,38 @@ class ProductResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true), // Permite alternar la visibilidad de esta columna
             ])
             ->filters([
-                // No se han definido filtros para esta tabla
-            ])
+                SelectFilter::make('categories')
+                    ->relationship('categories', 'description')
+                    ->label('Categorias')
+                    ->searchable()
+                    ->preload()
+                    ->multiple(),
+
+                Filter::make('created_at')
+                    ->form([
+                        DatePicker::make('created_from')
+                        ->label('Creado desde:'),                        
+                        DatePicker::make('created_until')
+                        ->label('Creado hasta:'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['created_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                            )
+                            ->when(
+                                $data['created_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                            );
+                    })
+                            
+
+            ], ) //layout: FiltersLayout::AboveContent)
+                
+
+
+            
             ->actions([
                 Tables\Actions\ViewAction::make(), // Acción para ver detalles de un registro
                 Tables\Actions\EditAction::make(), // Acción para editar un registro
