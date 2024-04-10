@@ -15,6 +15,7 @@ use Filament\Tables\Table; // Importa la clase Table de Filament para la constru
 use Illuminate\Database\Eloquent\Builder; // Importa la clase Builder para consultas Eloquent
 use Illuminate\Database\Eloquent\SoftDeletingScope; // Importa el alcance de eliminación suave de Eloquent
 use App\Filament\Exports\CategoryExporter; // Importa el exportador de categorías personalizado
+use App\Filament\Resources\CategoryResource\Widgets\CategoryWidget;
 use Filament\Actions\Exports\Enums\ExportFormat; // Importa el formato de exportación de Filament
 use Filament\Tables\Actions\ExportBulkAction; // Importa la acción de exportación masiva de Filament
 
@@ -80,6 +81,15 @@ class CategoryResource extends Resource
             // No se han definido relaciones para este recurso
         ];
     }
+
+    public static function getWidgets(): array
+    {
+        return [
+            CategoryWidget::class,
+        ];
+    }
+
+
 
     // Define las páginas asociadas a este recurso
     public static function getPages(): array

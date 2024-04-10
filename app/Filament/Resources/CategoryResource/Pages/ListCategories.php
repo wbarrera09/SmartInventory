@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\CategoryResource\Pages;
 
 use App\Filament\Resources\CategoryResource; // Importa la clase CategoryResource del namespace especificado
+use App\Filament\Resources\CategoryResource\Widgets\CategoryWidget;
 use Filament\Actions; // Importa la clase Actions del framework Filament
 use Filament\Resources\Pages\ListRecords; // Importa la clase ListRecords del framework Filament
 
@@ -20,4 +21,13 @@ class ListCategories extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            CategoryWidget::class,
+
+        ];
+    }
+
 }

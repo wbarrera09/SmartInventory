@@ -3,6 +3,8 @@
 namespace App\Providers\Filament;
 
 // Importaciones de clases y middlewares necesarios
+
+use App\Filament\Resources\CategoryResource\Widgets\CategoryWidget;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -50,7 +52,11 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets') // Descubrir widgets
             ->widgets([ // Definir widgets
                 Widgets\AccountWidget::class, // Widget de cuenta
-                //Widgets\FilamentInfoWidget::class, // Opcional: Widget de información de Filament
+                Widgets\FilamentInfoWidget::class, // Opcional: Widget de información de Filament
+                CategoryWidget::class
+
+
+
             ])
             ->middleware([ // Middleware global
                 EncryptCookies::class,
