@@ -20,6 +20,10 @@ use Filament\Tables\Actions\ExportBulkAction; // Importa la acción de exportaci
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\FormsComponent;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
+
 // use Filament\Tables\Enums\FiltersLayout;
 // se utiliza para poder colocar los filtros encima de la tabla, actualmente en exploracion
 
@@ -42,19 +46,42 @@ class ProductResource extends Resource
                     ->required() // Campo requerido
                     ->searchable() // Permite la búsqueda en este campo
                     ->preload() // Precarga los datos relacionados
-                    ->label('Categorias'), // Etiqueta del campo
+                    ->label('Categorias') // Etiqueta del campo
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(function ($state, Set $set) {  // Cambia los datos al momento de seleccionar una opcion
+
+                        $incomeType = Category::find($state);
+
+                        $set('category_type', @$incomeType->description);
+                    })
+                    ->afterStateHydrated(function ($state, Set $set) {
+
+                        $incomeType = Category::find($state);
+
+                        $set('category_type', @$incomeType->description);  // actualizar los campos luego de editar
+                    }),
+
                 Forms\Components\TextInput::make('description') // Campo de entrada de texto para la descripción del producto
                     ->required() // Campo requerido
                     ->maxLength(255) // Longitud máxima del campo
                     ->label('Descripcion'), // Etiqueta del campo
+
                 Forms\Components\TextInput::make('price') // Campo de entrada de texto para el precio del producto
                     ->required() // Campo requerido
                     ->numeric() // Se espera un valor numérico
                     ->prefix('$') // Prefijo del valor
-                    ->label('Precio'), // Etiqueta del campo
+                    ->label('Precio') // Etiqueta del campo
+                    ->hidden(fn (Get $get) => $get('category_type') == 'Almacenamiento' || null),
+
+
                 Forms\Components\TextInput::make('stock') // Campo de entrada de texto para el stock del producto
                     ->required() // Campo requerido
-                    ->numeric() // Se espera un valor numérico
+                    ->numeric(), // Se espera un valor numérico
+
+                Forms\Components\Hidden::make('category_type')
+
+                    
+
             ]);
     }
 
