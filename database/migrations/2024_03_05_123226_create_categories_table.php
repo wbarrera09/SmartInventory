@@ -17,7 +17,7 @@ return new class extends Migration
             // Define un campo de tipo entero autoincremental como clave primaria
             $table->id();
             // Define un campo de tipo string para la descripción de la categoría
-            $table->string('description');
+            $table->string('category_name');
             // Define los campos de marca de tiempo predeterminados (created_at y updated_at)
             $table->timestamps();
         });

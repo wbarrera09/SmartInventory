@@ -32,7 +32,7 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('description')->required()->maxLength(150) // Define un campo de texto para la descripción de la categoría
+                TextInput::make('category_name')->required()->maxLength(150) // Define un campo de texto para la descripción de la categoría
             ]);
     }
 
@@ -41,7 +41,7 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('description') // Columna para mostrar la descripción de la categoría
+                TextColumn::make('category_name') // Columna para mostrar la descripción de la categoría
                     ->searchable() // Permite la búsqueda en esta columna
                     ->sortable(), // Permite ordenar los resultados por esta columna
                 TextColumn::make('created_at') // Columna para mostrar la fecha de creación
@@ -82,6 +82,8 @@ class CategoryResource extends Resource
         ];
     }
 
+    
+    // Se utiliza para mandar a llamar los widgets desde el archivo CategoryWidget.php
     public static function getWidgets(): array
     {
         return [

@@ -14,7 +14,7 @@ class Category extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['description'];
+    protected $fillable = ['category_name'];
     
     /**
      * Define a relationship with the Product model.

@@ -14,7 +14,9 @@ class Product extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['description', 'price', 'stock', 'categories_id'];
+    protected $fillable = ['description', 'stock', 'location', 'size', 'format', 'grade',
+    'input', 'brand', 'model', 'processor', 'capacity', 'technology', 'status', 'port', 'comments', 
+    'categories_id'];
 
     /**
      * Define a relationship with the Category model.
