@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ProductResource\Pages;
 
 use App\Filament\Resources\ProductResource; // Importa la clase ProductResource del namespace especificado
+use App\Filament\Resources\ProductResource\Widgets\ProductWidget;
 use Filament\Actions; // Importa la clase Actions del framework Filament
 use Filament\Resources\Pages\ListRecords; // Importa la clase ListRecords del framework Filament
 
@@ -18,6 +19,15 @@ class ListProducts extends ListRecords
         // Devuelve una acción de creación encapsulada en un arreglo
         return [
             Actions\CreateAction::make(),
+        ];
+    }
+
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            ProductWidget::class,
+
         ];
     }
 }

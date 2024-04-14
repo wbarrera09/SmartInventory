@@ -13,6 +13,7 @@ use Filament\Tables\Table; // Importa la clase Table de Filament para la constru
 use Illuminate\Database\Eloquent\Builder; // Importa la clase Builder para consultas Eloquent
 use Illuminate\Database\Eloquent\SoftDeletingScope; // Importa el alcance de eliminación suave de Eloquent
 use App\Filament\Exports\ProductExporter; // Importa el exportador de productos personalizado
+use App\Filament\Resources\ProductResource\Widgets\ProductWidget;
 use App\Models\Category;
 use DeepCopy\Filter\Filter as FilterFilter;
 use Filament\Actions\Exports\Enums\ExportFormat; // Importa el formato de exportación de Filament
@@ -25,6 +26,8 @@ use Filament\Forms\Get;
 use Filament\Forms\Set;
 
 use Filament\Tables\Enums\FiltersLayout;
+use Illuminate\Database\Eloquent\Model;
+
 // se utiliza para poder colocar los filtros encima de la tabla, actualmente en exploracion
 
 
@@ -35,6 +38,38 @@ class ProductResource extends Resource
 
     // Establece el icono de navegación para este recurso
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['id',
+      //  'description',
+      //  'stock',
+        'location',
+        'size',
+        'format',
+        'grade',
+        'input',
+        'brand',
+        'model',
+        'processor',
+        'capacity',
+        'technology',
+        'status',
+        'port',
+        'comments'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+{
+    return [
+        'id' => $record->id,
+        'Marca' => $record->brand,
+        'Ubicación' => $record->location,
+        'stock' => $record->stock
+    ];
+}
 
     // Define la estructura del formulario para la creación y edición de registros
     public static function form(Form $form): Form
@@ -176,55 +211,73 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                ->sortable()
+                ->searchable(),
                 Tables\Columns\TextColumn::make('categories.category_name')
                     ->sortable()
+                    ->searchable()
                     ->label('Categoria'),
                 Tables\Columns\TextColumn::make('description')
                     ->sortable()
+                    ->searchable()
                     ->label('Descripción')
                     ->toggleable(isToggledHiddenByDefault: true), // Permite alternar la visibilidad de esta columna
                 Tables\Columns\TextColumn::make('stock')
                     ->numeric()
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('location')
                     ->sortable()
+                    ->searchable()
                     ->label('Ubicación'),
                 Tables\Columns\TextColumn::make('brand')
                     ->sortable()
-                    ->label('Marca')
-                    ->visibleFrom('md'),
+                    ->searchable()
+                    ->label('Marca'),
                 Tables\Columns\TextColumn::make('model')
                     ->sortable()
+                    ->searchable()
                     ->label('Modelo'),
                 Tables\Columns\TextColumn::make('size')
                     ->sortable()
+                    ->searchable()
                     ->label('Tamaño'),
                 Tables\Columns\TextColumn::make('format')
                     ->sortable()
+                    ->searchable()
                     ->label('Formato'),
                 Tables\Columns\TextColumn::make('grade')
                     ->sortable()
+                    ->searchable()
                     ->label('Grado'),
                 Tables\Columns\TextColumn::make('input')
                     ->sortable()
+                    ->searchable()
                     ->label('Entrada'),
                 Tables\Columns\TextColumn::make('processor')
                     ->sortable()
+                    ->searchable()
                     ->label('Procesador'),
                 Tables\Columns\TextColumn::make('capacity')
                     ->sortable()
+                    ->searchable()
                     ->label('Capacidad'),
                 Tables\Columns\TextColumn::make('technology')
                     ->sortable()
+                    ->searchable()
                     ->label('Tecnología'),
                 Tables\Columns\TextColumn::make('port')
                     ->sortable()
+                    ->searchable()
                     ->label('Puerto'),
                 Tables\Columns\TextColumn::make('status')
                     ->sortable()
+                    ->searchable()
                     ->label('Estado'),
                 Tables\Columns\TextColumn::make('comments')
                     ->sortable()
+                    ->searchable()
                     ->label('Comentarios')
                     ->toggleable(isToggledHiddenByDefault: true), // Permite alternar la visibilidad de esta columna
 
@@ -267,7 +320,7 @@ class ProductResource extends Resource
                     ->searchable()
                     ->preload(),
 
-                    SelectFilter::make('grade')
+                SelectFilter::make('grade')
                     ->options(function () {
                         // Consulta la base de datos para obtener los formatos disponibles excluyendo null
                         return Product::whereNotNull('grade')->distinct('grade')->pluck('grade', 'grade')->toArray();
@@ -277,7 +330,7 @@ class ProductResource extends Resource
                     ->searchable()
                     ->preload(),
 
-                    SelectFilter::make('input')
+                SelectFilter::make('input')
                     ->options(function () {
                         // Consulta la base de datos para obtener los formatos disponibles excluyendo null
                         return Product::whereNotNull('input')->distinct('input')->pluck('input', 'input')->toArray();
@@ -287,7 +340,7 @@ class ProductResource extends Resource
                     ->searchable()
                     ->preload(),
 
-                    SelectFilter::make('processor')
+                SelectFilter::make('processor')
                     ->options(function () {
                         // Consulta la base de datos para obtener los formatos disponibles excluyendo null
                         return Product::whereNotNull('processor')->distinct('processor')->pluck('processor', 'processor')->toArray();
@@ -297,7 +350,7 @@ class ProductResource extends Resource
                     ->searchable()
                     ->preload(),
 
-                    Filter::make('created_from')
+                Filter::make('created_from')
                     ->form([
                         DatePicker::make('created_from')
                             ->label('Creado desde:')
@@ -308,7 +361,7 @@ class ProductResource extends Resource
                             fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date)
                         );
                     }),
-                
+
                 Filter::make('created_until')
                     ->form([
                         DatePicker::make('created_until')
@@ -320,33 +373,8 @@ class ProductResource extends Resource
                             fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date)
                         );
                     })
-                
- 
-                
-                    
-
-/*
-                Filter::make('created_at')
-                    ->form([
-                        DatePicker::make('created_from')
-                            ->label('Creado desde:'),
-                        DatePicker::make('created_until')
-                            ->label('Creado hasta:'),
-                    ])
 
 
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['created_from'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['created_until'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
-                            );
-                    })
-*/
 
             ], layout: FiltersLayout::AboveContentCollapsible)
 
@@ -378,6 +406,14 @@ class ProductResource extends Resource
     {
         return [
             // No se han definido relaciones para este recurso
+        ];
+    }
+
+    // Se utiliza para mandar a llamar los widgets desde el archivo CategoryWidget.php
+    public static function getWidgets(): array
+    {
+        return [
+            ProductWidget::class,
         ];
     }
 

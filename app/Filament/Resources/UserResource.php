@@ -20,6 +20,7 @@ use Filament\Tables\Table; // Importa la clase Table de Filament para la constru
 use Illuminate\Database\Eloquent\Builder; // Importa la clase Builder para consultas Eloquent
 use Illuminate\Database\Eloquent\SoftDeletingScope; // Importa el alcance de eliminación suave de Eloquent
 use Filament\Actions\Exports\Enums\ExportFormat; // Importa el formato de exportación de Filament
+use Illuminate\Database\Eloquent\Model;
 
 class UserResource extends Resource
 {
@@ -28,6 +29,23 @@ class UserResource extends Resource
 
     // Establece el icono de navegación para este recurso
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['id','name','email'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'id' => $record->id,
+            'name' => $record->name,
+            'email' => $record->email
+        ];
+    }
+
+
+
 
     // Define la estructura del formulario para la creación y edición de registros
     public static function form(Form $form): Form
@@ -57,6 +75,10 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('id') // Columna para mostrar el nombre del usuario
+                ->searchable() // Permite la búsqueda en esta columna
+                ->sortable(), // Permite ordenar los resultados por esta columna
+
                 TextColumn::make('name') // Columna para mostrar el nombre del usuario
                     ->label('Nombre') // Etiqueta de la columna
                     ->searchable() // Permite la búsqueda en esta columna

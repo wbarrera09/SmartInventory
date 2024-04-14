@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource; // Importa la clase UserResource del namespace especificado
+use App\Filament\Resources\UserResource\Widgets\UserWidget;
 use Filament\Actions; // Importa la clase Actions del framework Filament
 use Filament\Resources\Pages\ListRecords; // Importa la clase ListRecords del framework Filament
 
@@ -18,6 +19,14 @@ class ListUsers extends ListRecords
         // Devuelve una acción de creación encapsulada en un arreglo
         return [
             Actions\CreateAction::make(),
+        ];
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            UserWidget::class,
+
         ];
     }
 }

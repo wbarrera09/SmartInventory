@@ -18,6 +18,7 @@ use App\Filament\Exports\CategoryExporter; // Importa el exportador de categorí
 use App\Filament\Resources\CategoryResource\Widgets\CategoryWidget;
 use Filament\Actions\Exports\Enums\ExportFormat; // Importa el formato de exportación de Filament
 use Filament\Tables\Actions\ExportBulkAction; // Importa la acción de exportación masiva de Filament
+use Illuminate\Database\Eloquent\Model;
 
 class CategoryResource extends Resource
 {
@@ -26,6 +27,23 @@ class CategoryResource extends Resource
 
     // Establece el icono de navegación para este recurso
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+   /* // Se utiliza para mandar a llamar en la busqueda general de todo el sistema
+    protected static ?string $recordTitleAttribute = 'category_name';*/
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['id','category_name'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+{
+    return [
+        'id' => $record->id,
+        'Categoria' => $record->category_name
+    ];
+}
+
 
     // Define la estructura del formulario para la creación y edición de registros
     public static function form(Form $form): Form
@@ -41,7 +59,11 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('id') // Columna para mostrar la descripción de la categoría
+                ->searchable() // Permite la búsqueda en esta columna
+                ->sortable(), // Permite ordenar los resultados por esta columna
                 TextColumn::make('category_name') // Columna para mostrar la descripción de la categoría
+                    ->label('Categorias')
                     ->searchable() // Permite la búsqueda en esta columna
                     ->sortable(), // Permite ordenar los resultados por esta columna
                 TextColumn::make('created_at') // Columna para mostrar la fecha de creación
@@ -102,4 +124,7 @@ class CategoryResource extends Resource
             'edit' => Pages\EditCategory::route('/{record}/edit'), // Página de edición de categorías
         ];
     }
+
+
+
 }
