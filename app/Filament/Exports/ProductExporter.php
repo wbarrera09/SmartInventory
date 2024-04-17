@@ -7,7 +7,11 @@ use Filament\Actions\Exports\ExportColumn; // Importa la columna de exportación
 use Filament\Actions\Exports\Exporter; // Importa la clase Exporter de Filament para la exportación de datos
 use Filament\Actions\Exports\Models\Export; // Importa la acción de exportación de modelos de Filament
 
+
+
 class ProductExporter extends Exporter
+
+
 {
     // Establece el modelo de Eloquent asociado a este exportador
     protected static ?string $model = Product::class;
@@ -16,16 +20,32 @@ class ProductExporter extends Exporter
     public static function getColumns(): array
     {
         return [
-            ExportColumn::make('id', 'id'), // Columna de exportación para el ID de producto
-            ExportColumn::make('category_name', 'category_name'), // Columna de exportación para la descripción de producto
-            ExportColumn::make('price', 'price'), // Columna de exportación para el precio de producto
 
 
-            ExportColumn::make('categories_id', 'categories_id'), // Columna de exportación para el ID de categoría asociado al producto
-            ExportColumn::make('created_at', 'created_at'), // Columna de exportación para la fecha de creación
-            ExportColumn::make('updated_at', 'updated_at'), // Columna de exportación para la fecha de actualización
+            ExportColumn::make('id', 'id'),
+            ExportColumn::make('description', 'description'),
+            ExportColumn::make('stock', 'stock'),
+            ExportColumn::make('location', 'location'),
+            ExportColumn::make('size', 'size'),
+            ExportColumn::make('format', 'format'),
+            ExportColumn::make('grade', 'grade'),
+            ExportColumn::make('input', 'input'),
+            ExportColumn::make('brand', 'brand'),
+            ExportColumn::make('model', 'model'),
+            ExportColumn::make('processor', 'processor'),
+            ExportColumn::make('capacity', 'capacity'),
+            ExportColumn::make('technology', 'technology'),
+            ExportColumn::make('status', 'status'),
+            ExportColumn::make('port', 'port'),
+            ExportColumn::make('comments', 'comments'),
+            ExportColumn::make('categories_id', 'categories_id'),
+            ExportColumn::make('created_at', 'created_at'),
+            ExportColumn::make('updated_at', 'updated_at')
+
         ];
     }
+
+   
 
     // Define el cuerpo de la notificación una vez que se ha completado la exportación
     public static function getCompletedNotificationBody(Export $export): string

@@ -16,33 +16,44 @@ use Illuminate\Database\Eloquent\Builder; // Importa la clase Builder para consu
 use Illuminate\Database\Eloquent\SoftDeletingScope; // Importa el alcance de eliminación suave de Eloquent
 use App\Filament\Exports\CategoryExporter; // Importa el exportador de categorías personalizado
 use App\Filament\Resources\CategoryResource\Widgets\CategoryWidget;
+use App\Models\Product;
 use Filament\Actions\Exports\Enums\ExportFormat; // Importa el formato de exportación de Filament
 use Filament\Tables\Actions\ExportBulkAction; // Importa la acción de exportación masiva de Filament
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+
 
 class CategoryResource extends Resource
 {
     // Establece el modelo de Eloquent asociado a esta clase de recurso
     protected static ?string $model = Category::class;
 
+
+
     // Establece el icono de navegación para este recurso
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-   /* // Se utiliza para mandar a llamar en la busqueda general de todo el sistema
+    /* // Se utiliza para mandar a llamar en la busqueda general de todo el sistema
     protected static ?string $recordTitleAttribute = 'category_name';*/
+
+    
 
     public static function getGloballySearchableAttributes(): array
     {
-        return ['id','category_name'];
+        return ['id', 'category_name'];
     }
 
     public static function getGlobalSearchResultDetails(Model $record): array
-{
-    return [
-        'id' => $record->id,
-        'Categoria' => $record->category_name
-    ];
-}
+    {
+        return [
+            'id' => $record->id,
+            'Categoria' => $record->category_name
+        ];
+    }
+
+    
+
+    
 
 
     // Define la estructura del formulario para la creación y edición de registros
@@ -60,8 +71,8 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id') // Columna para mostrar la descripción de la categoría
-                ->searchable() // Permite la búsqueda en esta columna
-                ->sortable(), // Permite ordenar los resultados por esta columna
+                    ->searchable() // Permite la búsqueda en esta columna
+                    ->sortable(), // Permite ordenar los resultados por esta columna
                 TextColumn::make('category_name') // Columna para mostrar la descripción de la categoría
                     ->label('Categorias')
                     ->searchable() // Permite la búsqueda en esta columna
@@ -69,11 +80,14 @@ class CategoryResource extends Resource
                 TextColumn::make('created_at') // Columna para mostrar la fecha de creación
                     ->dateTime() // Muestra la fecha y hora en formato datetime
                     ->sortable() // Permite ordenar los resultados por esta columna
-                    ->toggleable(isToggledHiddenByDefault:true), // Permite alternar la visibilidad de esta columna
+                    ->toggleable(isToggledHiddenByDefault: true), // Permite alternar la visibilidad de esta columna
                 TextColumn::make('updated_at') // Columna para mostrar la fecha de actualización
                     ->dateTime() // Muestra la fecha y hora en formato datetime
                     ->sortable() // Permite ordenar los resultados por esta columna
-                    ->toggleable(isToggledHiddenByDefault:true), // Permite alternar la visibilidad de esta columna
+                    ->toggleable(isToggledHiddenByDefault: true), // Permite alternar la visibilidad de esta columna
+                  
+                  
+
             ])
             ->filters([
                 // No se han definido filtros para esta tabla
@@ -104,7 +118,7 @@ class CategoryResource extends Resource
         ];
     }
 
-    
+
     // Se utiliza para mandar a llamar los widgets desde el archivo CategoryWidget.php
     public static function getWidgets(): array
     {
@@ -126,5 +140,5 @@ class CategoryResource extends Resource
     }
 
 
-
+    
 }

@@ -13,13 +13,23 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Seeder para generar datos falsos de usuarios
-        \App\Models\User::factory(3)->create();
+        \App\Models\User::factory(49)->create();
+
+        // ejecuta el seeder de categorias
+        $this->call(CategorySeeder::class);
+        $this->call(ProductSeeder::class);
+
 
         // Seeder para crear un usuario específico
-        //\App\Models\User::factory()->create([
-        //    'name' => 'Test User',
-        //    'email' => 'test@example.com',
-        // ]);
+        $user = \App\Models\User::where('email', 'wbarrera@smartinventory.com')->first();
+
+        if (!$user) {
+            \App\Models\User::factory()->create([
+                'name' => 'William Barrera',
+                'email' => 'wbarrera@smartinventory.com',
+                'password' => bcrypt('wbarrera'),
+            ]);
+        }
     }
 }
 // Comentar para desactivar

@@ -17,7 +17,7 @@ class CategoryExporter extends Exporter
     {
         return [
             ExportColumn::make('id', 'id'), // Columna de exportación para el ID de categoría
-            ExportColumn::make('description', 'description'), // Columna de exportación para la descripción de categoría
+            ExportColumn::make('category_name', 'category_name'), // Columna de exportación para la descripción de categoría
             ExportColumn::make('created_at', 'created_at'), // Columna de exportación para la fecha de creación
             ExportColumn::make('updated_at', 'updated_at'), // Columna de exportación para la fecha de actualización
         ];

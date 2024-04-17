@@ -13,6 +13,8 @@ use Filament\Tables\Table; // Importa la clase Table de Filament para la constru
 use Illuminate\Database\Eloquent\Builder; // Importa la clase Builder para consultas Eloquent
 use Illuminate\Database\Eloquent\SoftDeletingScope; // Importa el alcance de eliminación suave de Eloquent
 use App\Filament\Exports\ProductExporter; // Importa el exportador de productos personalizado
+use App\Filament\Resources\ProductResource\Widgets\ProductChart;
+use App\Filament\Resources\ProductResource\Widgets\ProductPieChart;
 use App\Filament\Resources\ProductResource\Widgets\ProductWidget;
 use App\Models\Category;
 use DeepCopy\Filter\Filter as FilterFilter;
@@ -414,6 +416,8 @@ class ProductResource extends Resource
     {
         return [
             ProductWidget::class,
+            ProductChart::class,
+            ProductPieChart::class
         ];
     }
 
