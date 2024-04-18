@@ -21,9 +21,12 @@ class ListProducts extends ListRecords
     {
         // Devuelve una acción de creación encapsulada en un arreglo
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+            ->label('Crear Producto')
         ];
     }
+
+    
 
 
     protected function getHeaderWidgets(): array

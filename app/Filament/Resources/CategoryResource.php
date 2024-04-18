@@ -31,12 +31,15 @@ class CategoryResource extends Resource
 
 
     // Establece el icono de navegación para este recurso
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-briefcase';
+
+    // Se define el nombre de la pagina en el panel administrativo
+    protected static ?string $navigationLabel = 'Categorias';
 
     /* // Se utiliza para mandar a llamar en la busqueda general de todo el sistema
     protected static ?string $recordTitleAttribute = 'category_name';*/
 
-    
+
 
     public static function getGloballySearchableAttributes(): array
     {
@@ -51,9 +54,9 @@ class CategoryResource extends Resource
         ];
     }
 
-    
 
-    
+
+
 
 
     // Define la estructura del formulario para la creación y edición de registros
@@ -85,8 +88,8 @@ class CategoryResource extends Resource
                     ->dateTime() // Muestra la fecha y hora en formato datetime
                     ->sortable() // Permite ordenar los resultados por esta columna
                     ->toggleable(isToggledHiddenByDefault: true), // Permite alternar la visibilidad de esta columna
-                  
-                  
+
+
 
             ])
             ->filters([
@@ -138,7 +141,4 @@ class CategoryResource extends Resource
             'edit' => Pages\EditCategory::route('/{record}/edit'), // Página de edición de categorías
         ];
     }
-
-
-    
 }

@@ -26,11 +26,14 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\FormsComponent;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
-
+use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Enums\FiltersLayout;
 use Illuminate\Database\Eloquent\Model;
 
+
 // se utiliza para poder colocar los filtros encima de la tabla, actualmente en exploracion
+
+
 
 
 class ProductResource extends Resource
@@ -39,7 +42,15 @@ class ProductResource extends Resource
     protected static ?string $model = Product::class;
 
     // Establece el icono de navegación para este recurso
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
+
+    // Se define el nombre de la pagina en el panel administrativo
+    protected static ?string $navigationLabel = 'Productos';
+
+
+
+
+
 
 
 
@@ -212,6 +223,7 @@ class ProductResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                 ->sortable()
@@ -294,6 +306,9 @@ class ProductResource extends Resource
                     ->sortable() // Permite ordenar los resultados por esta columna
                     ->toggleable(isToggledHiddenByDefault: true), // Permite alternar la visibilidad de esta columna
             ])
+
+
+
             ->filters([
                 SelectFilter::make('categories')
                     ->relationship('categories', 'category_name')
@@ -389,7 +404,11 @@ class ProductResource extends Resource
                 Tables\Actions\ViewAction::make(), // Acción para ver detalles de un registro
                 Tables\Actions\EditAction::make(), // Acción para editar un registro
                 Tables\Actions\DeleteAction::make(), // Acción para eliminar un registro
-            ])
+                
+
+            ],) //position: ActionsPosition::BeforeCells)
+
+            
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(), // Acción de eliminación masiva de registros

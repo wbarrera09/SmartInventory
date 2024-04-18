@@ -25,6 +25,9 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Filament\Support\Enums\MaxWidth;
+
+
 
 // Definición del proveedor de panel
 class AdminPanelProvider extends PanelProvider
@@ -34,17 +37,39 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
+            ->maxContentWidth(MaxWidth::Full) // Hace que el sistema sea responsive y se adapte a las pantallas
+            ->sidebarCollapsibleOnDesktop() // Permite mostrar y ocultar el panel administrativo
+
+            ->topNavigation()
+           // ->brandLogo(asset('images/unab_logo.png'))
+            //->brandLogoHeight('4rem')
+
+           // ->brandName('Smart Inventory')
+
+
+
+
+
+
             ->id('admin') // ID del panel
             ->path('admin') // Ruta del panel
             ->login() // Habilitar la función de inicio de sesión
             ->registration() // Habilitar el registro de usuarios
+            ->passwordReset()
+            ->emailVerification()
+            ->profile()
             ->databaseNotifications() // Habilitar notificaciones de base de datos
             ->userMenuItems([ // Ítem del menú del usuario
                 MenuItem::make()
                 ->label('Admin')
                 ->icon('heroicon-o-cog-6-tooth') // Icono del menú
-                ->url('/admin') // URL del menú
+                ->url('/admin'), // URL del menú
+                'profile' => MenuItem::make()->label('Editar perfil')
             ])
+            //->unsavedChangesAlerts() // No compatible con el modo spa
+           ->spa() // esto se utiliza para reciclar codigo y que la pagina sea mucho mas rapida
+
+
             ->colors([ // Definir colores
                 'primary' => Color::Blue, // Color primario
             ])

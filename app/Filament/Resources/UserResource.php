@@ -28,11 +28,16 @@ class UserResource extends Resource
     protected static ?string $model = User::class;
 
     // Establece el icono de navegación para este recurso
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user';
+
+    // Se define el nombre de la pagina en el panel administrativo
+    protected static ?string $navigationLabel = 'Usuarios';
+
+    
 
     public static function getGloballySearchableAttributes(): array
     {
-        return ['id','name','email'];
+        return ['id', 'name', 'email'];
     }
 
     public static function getGlobalSearchResultDetails(Model $record): array
@@ -76,8 +81,8 @@ class UserResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id') // Columna para mostrar el nombre del usuario
-                ->searchable() // Permite la búsqueda en esta columna
-                ->sortable(), // Permite ordenar los resultados por esta columna
+                    ->searchable() // Permite la búsqueda en esta columna
+                    ->sortable(), // Permite ordenar los resultados por esta columna
 
                 TextColumn::make('name') // Columna para mostrar el nombre del usuario
                     ->label('Nombre') // Etiqueta de la columna

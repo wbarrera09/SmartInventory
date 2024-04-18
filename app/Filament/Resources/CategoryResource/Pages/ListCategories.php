@@ -12,13 +12,15 @@ class ListCategories extends ListRecords
 {
     // Declara una propiedad estática llamada $resource y la inicializa con la clase CategoryResource
     protected static string $resource = CategoryResource::class;
+    
 
     // Define un método protegido llamado getHeaderActions que devuelve un arreglo de acciones de encabezado
     protected function getHeaderActions(): array
     {
         // Devuelve una acción de creación encapsulada en un arreglo
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+            ->label('Crear Categoria')
         ];
     }
 
