@@ -26,6 +26,8 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Support\Enums\MaxWidth;
+use Filament\Enums\ThemeMode;
+
 
 
 
@@ -44,10 +46,18 @@ class AdminPanelProvider extends PanelProvider
            // ->brandLogo(asset('images/unab_logo.png'))
             //->brandLogoHeight('4rem')
 
-           // ->brandName('Smart Inventory')
+            ->brandName('Smart Inventory')
 
+            /*->colors([
+                'danger' => Color::Rose,
+                'gray' => Color::Gray,
+                'info' => Color::Blue,
+                'primary' => Color::Indigo,
+                'success' => Color::Emerald,
+                'warning' => Color::Orange,
+            ])*/
 
-
+            ->defaultThemeMode(ThemeMode::Light)
 
 
 
