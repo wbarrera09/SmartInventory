@@ -23,6 +23,7 @@ class ProductExporter extends Exporter
 
 
             ExportColumn::make('id', 'id'),
+            ExportColumn::make('categories.category_name', 'categories.category_name'),
             ExportColumn::make('description', 'description'),
             ExportColumn::make('stock', 'stock'),
             ExportColumn::make('location', 'location'),

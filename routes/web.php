@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DownloadCategoryPDF;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::prefix('generate-pdf')->name('generate-pdf.')
+    ->group(function () {
+        Route::controller(DownloadCategoryPDF::class)->group(function () {
+            Route::get('category-report/{record}', 'category')->name('category.report');
+        });
+    });
+
+
