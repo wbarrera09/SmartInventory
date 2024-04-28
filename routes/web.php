@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\DownloadCategoryPDF;
+use App\Http\Controllers\DownloadProductPDF;
+use App\Http\Controllers\DownloadUserPDF;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,4 +27,16 @@ Route::prefix('generate-pdf')->name('generate-pdf.')
         });
     });
 
+Route::prefix('generate-pdf')->name('generate-pdf.')
+    ->group(function () {
+        Route::controller(DownloadProductPDF::class)->group(function () {
+            Route::get('product-report/{record}', 'product')->name('product.report');
+        });
+    });
 
+Route::prefix('generate-pdf')->name('generate-pdf.')
+    ->group(function () {
+        Route::controller(DownloadUserPDF::class)->group(function () {
+            Route::get('user-report/{record}', 'user')->name('user.report');
+        });
+    });

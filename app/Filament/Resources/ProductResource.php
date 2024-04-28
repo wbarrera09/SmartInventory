@@ -404,6 +404,15 @@ class ProductResource extends Resource
                 Tables\Actions\ViewAction::make(), // Acción para ver detalles de un registro
                 Tables\Actions\EditAction::make(), // Acción para editar un registro
                 Tables\Actions\DeleteAction::make(), // Acción para eliminar un registro
+
+                Tables\Actions\Action::make('download')
+                ->label('PDF')
+                ->icon('heroicon-o-document-arrow-down')
+                ->color('')
+                ->url(
+                    fn (Product $record): string => route('generate-pdf.product.report', ['record' => $record]),
+                    shouldOpenInNewTab: true
+                )
                 
 
             ],) //position: ActionsPosition::BeforeCells)
