@@ -26,10 +26,10 @@ class CategoryExporter extends Exporter
     // Define el cuerpo de la notificación una vez que se ha completado la exportación
     public static function getCompletedNotificationBody(Export $export): string
     {
-        $body = 'Your category export has completed and ' . number_format($export->successful_rows) . ' ' . str('row')->plural($export->successful_rows) . ' exported.';
+        $body = 'La exportación de categorias se ha completado y ' . number_format($export->successful_rows) . ' ' . str('filas')->plural($export->successful_rows) . ' exportadas.';
 
         if ($failedRowsCount = $export->getFailedRowsCount()) {
-            $body .= ' ' . number_format($failedRowsCount) . ' ' . str('row')->plural($failedRowsCount) . ' failed to export.';
+            $body .= ' ' . number_format($failedRowsCount) . ' ' . str('filas')->plural($failedRowsCount) . ' error al exportar.';
         }
 
         return $body;

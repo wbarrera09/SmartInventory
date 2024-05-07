@@ -12,4 +12,6 @@ class Controller extends BaseController
 
     // Este controlador proporciona funcionalidades comunes a todos los demás controladores de la aplicación, como la autorización y la validación de solicitudes.
     // Al extender la clase BaseController y usar los traits AuthorizesRequests y ValidatesRequests, este controlador hereda todas las funcionalidades asociadas con ellos.
+
+
 }

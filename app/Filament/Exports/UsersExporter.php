@@ -22,16 +22,17 @@ class UsersExporter extends Exporter
             ExportColumn::make('password', 'password'), // Columna de exportación para la contraseña de usuario
             ExportColumn::make('created_at', 'created_at'), // Columna de exportación para la fecha de creación
             ExportColumn::make('updated_at', 'updated_at'), // Columna de exportación para la fecha de actualización
+            
         ];
     }
 
     // Define el cuerpo de la notificación una vez que se ha completado la exportación
     public static function getCompletedNotificationBody(Export $export): string
     {
-        $body = 'Your users export has completed and ' . number_format($export->successful_rows) . ' ' . str('row')->plural($export->successful_rows) . ' exported.';
+        $body = 'La exportación de usuarios se ha completado y ' . number_format($export->successful_rows) . ' ' . str('filas')->plural($export->successful_rows) . ' exportadas.';
 
         if ($failedRowsCount = $export->getFailedRowsCount()) {
-            $body .= ' ' . number_format($failedRowsCount) . ' ' . str('row')->plural($failedRowsCount) . ' failed to export.';
+            $body .= ' ' . number_format($failedRowsCount) . ' ' . str('filas')->plural($failedRowsCount) . ' error al exportar.';
         }
 
         return $body;

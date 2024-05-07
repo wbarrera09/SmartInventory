@@ -3,11 +3,14 @@
 namespace App\Filament\Resources\CategoryResource\Pages;
 
 use App\Filament\Exports\CategoryExporter;
+use App\Filament\Imports\CategoryImporter;
 use App\Filament\Resources\CategoryResource; // Importa la clase CategoryResource del namespace especificado
 use App\Filament\Resources\CategoryResource\Widgets\CategoryWidget;
 use Filament\Actions; // Importa la clase Actions del framework Filament
 use Filament\Actions\ExportAction;
+use Filament\Actions\ImportAction;
 use Filament\Resources\Pages\ListRecords; // Importa la clase ListRecords del framework Filament
+use Illuminate\Contracts\View\View;
 
 // Define una clase llamada ListCategories que extiende de ListRecords
 class ListCategories extends ListRecords
@@ -26,9 +29,15 @@ class ListCategories extends ListRecords
                 ->icon('heroicon-o-briefcase'),
             ExportAction::make()
                 ->exporter(CategoryExporter::class)
-                ->label('Exportar CSV')
+                ->label('Exportar')
                 ->color('success')
-                ->icon('heroicon-o-document-arrow-down')
+                ->icon('heroicon-o-document-arrow-down'),
+            ImportAction::make()
+                ->importer(CategoryImporter::class)
+                ->label('Importar')
+                ->color('slate')
+                ->icon('heroicon-o-document-arrow-up')
+
         ];
     }
 

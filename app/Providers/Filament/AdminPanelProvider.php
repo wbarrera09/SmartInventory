@@ -43,19 +43,11 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarCollapsibleOnDesktop() // Permite mostrar y ocultar el panel administrativo
 
             ->topNavigation()
-           // ->brandLogo(asset('images/unab_logo.png'))
+            // ->brandLogo(asset('images/unab_logo.png'))
             //->brandLogoHeight('4rem')
 
             ->brandName('Smart Inventory')
 
-            /*->colors([
-                'danger' => Color::Rose,
-                'gray' => Color::Gray,
-                'info' => Color::Blue,
-                'primary' => Color::Indigo,
-                'success' => Color::Emerald,
-                'warning' => Color::Orange,
-            ])*/
 
             ->defaultThemeMode(ThemeMode::Light)
 
@@ -71,18 +63,31 @@ class AdminPanelProvider extends PanelProvider
             ->databaseNotifications() // Habilitar notificaciones de base de datos
             ->userMenuItems([ // Ítem del menú del usuario
                 MenuItem::make()
-                ->label('Admin')
-                ->icon('heroicon-o-cog-6-tooth') // Icono del menú
-                ->url('/admin'), // URL del menú
+                    ->label('Admin')
+                    ->icon('heroicon-o-cog-6-tooth') // Icono del menú
+                    ->url('/admin'), // URL del menú
                 'profile' => MenuItem::make()->label('Editar perfil')
             ])
             //->unsavedChangesAlerts() // No compatible con el modo spa
-           ->spa() // esto se utiliza para reciclar codigo y que la pagina sea mucho mas rapida
+            ->spa() // esto se utiliza para reciclar codigo y que la pagina sea mucho mas rapida
 
 
             ->colors([ // Definir colores
                 'primary' => Color::Blue, // Color primario
+                'danger' => Color::Rose,
+                'gray' => Color::Gray,
+                'info' => Color::Blue,
+                'success' => Color::Emerald,
+                'warning' => Color::Amber,
+                'indigo' => Color::Indigo,
+               // 'violet' => Color::hex('#003AFF'), // se puede definir cualquier color con base al codigo
+                'slate' => Color::Slate,
+
+
             ])
+
+
+
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources') // Descubrir recursos
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages') // Descubrir páginas
             ->pages([ // Definir páginas

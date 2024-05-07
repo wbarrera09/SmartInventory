@@ -62,10 +62,13 @@ class CategoryResource extends Resource
     // Define la estructura del formulario para la creación y edición de registros
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                TextInput::make('category_name')->required()->maxLength(150) // Define un campo de texto para la descripción de la categoría
-            ]);
+    return $form
+        ->schema([
+            TextInput::make('category_name')
+                ->required()
+                ->maxLength(150)
+                ->unique(Category::class, 'category_name'), // Asegura que el nombre de la categoría sea único en la tabla de categorías
+        ]);
     }
 
     // Define la estructura de la tabla para la visualización de registros
@@ -99,15 +102,15 @@ class CategoryResource extends Resource
                 Tables\Actions\ViewAction::make(), // Acción para ver detalles de un registro
                 Tables\Actions\EditAction::make(), // Acción para editar un registro
                 Tables\Actions\DeleteAction::make(), // Acción para eliminar un registro
-               
+
                 Tables\Actions\Action::make('download')
-                ->label('PDF')
-                ->icon('heroicon-o-document-arrow-down')
-                ->color('')
-                ->url(
-                    fn (Category $record): string => route('generate-pdf.category.report', ['record' => $record]),
-                    shouldOpenInNewTab: true
-                )
+                    ->label('PDF')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->color('')
+                    ->url(
+                        fn (Category $record): string => route('generate-pdf.category.report', ['record' => $record]),
+                        shouldOpenInNewTab: true
+                    )
 
 
             ])
@@ -119,7 +122,8 @@ class CategoryResource extends Resource
                         ->formats([
                             ExportFormat::Xlsx, // Formato de exportación XLSX
                             ExportFormat::Csv, // Formato de exportación CSV
-                        ])
+                        ]),
+
                 ]),
             ]);
     }
