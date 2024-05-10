@@ -80,7 +80,7 @@ class AdminPanelProvider extends PanelProvider
                 'success' => Color::Emerald,
                 'warning' => Color::Amber,
                 'indigo' => Color::Indigo,
-               // 'violet' => Color::hex('#003AFF'), // se puede definir cualquier color con base al codigo
+               'violet' => Color::hex('#FFFF00'), // se puede definir cualquier color con base al codigo
                 'slate' => Color::Slate,
 
 

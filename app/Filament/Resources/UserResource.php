@@ -20,6 +20,8 @@ use Filament\Tables\Table; // Importa la clase Table de Filament para la constru
 use Illuminate\Database\Eloquent\Builder; // Importa la clase Builder para consultas Eloquent
 use Illuminate\Database\Eloquent\SoftDeletingScope; // Importa el alcance de eliminación suave de Eloquent
 use Filament\Actions\Exports\Enums\ExportFormat; // Importa el formato de exportación de Filament
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Model;
 
 class UserResource extends Resource
@@ -100,12 +102,44 @@ class UserResource extends Resource
                     ->sortable(), // Permite ordenar los resultados por esta columna
             ])
             ->filters([
-                // No se han definido filtros para esta tabla
-            ])
+                SelectFilter::make('name')
+                ->options(function () {
+                    // Consulta la base de datos para obtener los nombres de las categorías disponibles
+                    return User::pluck('name', 'name')->toArray();
+                })
+                ->label('Nombre')
+                ->searchable()
+                ->preload()
+                ->multiple(),
+                SelectFilter::make('email')
+                ->options(function () {
+                    // Consulta la base de datos para obtener los nombres de las categorías disponibles
+                    return User::pluck('email', 'email')->toArray();
+                })
+                ->label('Correo Electrónico')
+                ->searchable()
+                ->preload()
+                ->multiple(),
+
+
+                Tables\Filters\TrashedFilter::make(),
+
+
+
+            ], layout: FiltersLayout::AboveContentCollapsible)
+
+
             ->actions([
                 Tables\Actions\ViewAction::make(), // Acción para ver detalles de un registro
                 Tables\Actions\EditAction::make(), // Acción para editar un registro
                 Tables\Actions\DeleteAction::make(), // Acción para eliminar un registro
+
+                Tables\Actions\RestoreAction::make()
+                ->icon('heroicon-m-arrow-uturn-down')
+                ->color('success'),
+                Tables\Actions\ForceDeleteAction::make()
+                ->icon('heroicon-m-backspace')
+                ->color('warning'),
 
                 Tables\Actions\Action::make('download')
                 ->label('PDF')

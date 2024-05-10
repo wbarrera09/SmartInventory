@@ -21,6 +21,10 @@ use Filament\Actions\Exports\Enums\ExportFormat; // Importa el formato de export
 use Filament\Tables\Actions\ExportBulkAction; // Importa la acción de exportación masiva de Filament
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Enums\FiltersLayout;
+
 
 
 class CategoryResource extends Resource
@@ -96,12 +100,33 @@ class CategoryResource extends Resource
 
             ])
             ->filters([
-                // No se han definido filtros para esta tabla
-            ])
+               SelectFilter::make('category_name')
+               ->options(function () {
+                   // Consulta la base de datos para obtener los nombres de las categorías disponibles
+                   return Category::pluck('category_name', 'category_name')->toArray();
+               })
+               ->label('Categorías')
+               ->searchable()
+               ->preload()
+               ->multiple(),
+               Tables\Filters\TrashedFilter::make(),
+
+
+            ], layout: FiltersLayout::AboveContentCollapsible)
+
             ->actions([
                 Tables\Actions\ViewAction::make(), // Acción para ver detalles de un registro
                 Tables\Actions\EditAction::make(), // Acción para editar un registro
                 Tables\Actions\DeleteAction::make(), // Acción para eliminar un registro
+                
+                
+                Tables\Actions\RestoreAction::make()
+                ->icon('heroicon-m-arrow-uturn-down')
+                ->color('success'),
+                Tables\Actions\ForceDeleteAction::make()
+                ->icon('heroicon-m-backspace')
+                ->color('warning'),
+
 
                 Tables\Actions\Action::make('download')
                     ->label('PDF')

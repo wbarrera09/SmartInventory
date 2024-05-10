@@ -57,7 +57,7 @@ class ProductResource extends Resource
     public static function getGloballySearchableAttributes(): array
     {
         return ['id',
-      //  'description',
+       'description',
       //  'stock',
         'location',
         'size',
@@ -80,7 +80,9 @@ class ProductResource extends Resource
         'id' => $record->id,
         'Marca' => $record->brand,
         'Ubicación' => $record->location,
-        'stock' => $record->stock
+        'stock' => $record->stock,
+        'description' => $record->description
+
     ];
 }
 
@@ -389,7 +391,10 @@ class ProductResource extends Resource
                             $data['created_until'],
                             fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date)
                         );
-                    })
+                    }),
+
+                    Tables\Filters\TrashedFilter::make(),
+
 
 
 
@@ -404,6 +409,13 @@ class ProductResource extends Resource
                 Tables\Actions\ViewAction::make(), // Acción para ver detalles de un registro
                 Tables\Actions\EditAction::make(), // Acción para editar un registro
                 Tables\Actions\DeleteAction::make(), // Acción para eliminar un registro
+
+                Tables\Actions\RestoreAction::make()
+                ->icon('heroicon-m-arrow-uturn-down')
+                ->color('success'),
+                Tables\Actions\ForceDeleteAction::make()
+                ->icon('heroicon-m-backspace')
+                ->color('warning'),
 
                 Tables\Actions\Action::make('download')
                 ->label('PDF')
