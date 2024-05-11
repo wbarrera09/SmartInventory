@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Role;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents; // Comentar para desactivar
 use Illuminate\Database\Seeder;
 
@@ -30,6 +31,20 @@ class DatabaseSeeder extends Seeder
                 'password' => bcrypt('wbarrera'),
             ]);
         }
+
+          // Asignar el rol de SuperAdmin al usuario
+          $superAdminRole = Role::where('name', 'SuperAdmin')->first();
+
+          // Verificar si el rol SuperAdmin existe
+          if ($superAdminRole) {
+              $user->assignRole($superAdminRole);
+          } else {
+              // Si el rol no existe, puedes crearlo aquí
+              Role::create(['name' => 'SuperAdmin']);
+          }
+
+
+
+        
     }
 }
-// Comentar para desactivar

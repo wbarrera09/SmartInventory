@@ -1,9 +1,11 @@
 <?php
 
+use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
 use App\Http\Controllers\DownloadCategoryPDF;
 use App\Http\Controllers\DownloadProductPDF;
 use App\Http\Controllers\DownloadUserPDF;
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,3 +42,5 @@ Route::prefix('generate-pdf')->name('generate-pdf.')
             Route::get('user-report/{record}', 'user')->name('user.report');
         });
     });
+
+

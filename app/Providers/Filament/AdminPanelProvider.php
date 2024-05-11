@@ -28,6 +28,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Enums\ThemeMode;
 
+use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin; // Esta clase funciona para los Roles y permisos
 
 
 
@@ -80,7 +81,7 @@ class AdminPanelProvider extends PanelProvider
                 'success' => Color::Emerald,
                 'warning' => Color::Amber,
                 'indigo' => Color::Indigo,
-               'violet' => Color::hex('#FFFF00'), // se puede definir cualquier color con base al codigo
+                //'violet' => Color::hex('#FF00CD'), // se puede definir cualquier color con base al codigo
                 'slate' => Color::Slate,
 
 
@@ -92,6 +93,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages') // Descubrir páginas
             ->pages([ // Definir páginas
                 Pages\Dashboard::class, // Página del panel de control
+                
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets') // Descubrir widgets
             ->widgets([ // Definir widgets
@@ -118,6 +120,13 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+
+
+          //  ->plugin(FilamentSpatieRolesPermissionsPlugin::make()) // Se utiliza para mandar a llamar el plugin de permisos y roles
+            // Se omite este plugin ya que tenia un defecto y es que no se podia ocultar para los otros roles
+            // al ser un plugin se precede a generar de manera manual con los recursos que este generó dbb
+
+
             ->authMiddleware([ // Middleware de autenticación
                 Authenticate::class, // Middleware de autenticación de Filament
             ]);

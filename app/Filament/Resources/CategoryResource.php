@@ -35,10 +35,12 @@ class CategoryResource extends Resource
 
 
     // Establece el icono de navegación para este recurso
-    protected static ?string $navigationIcon = 'heroicon-o-briefcase';
+    protected static ?string $navigationIcon = 'heroicon-m-briefcase';
 
     // Se define el nombre de la pagina en el panel administrativo
     protected static ?string $navigationLabel = 'Categorias';
+
+    protected static ?int $navigationSort = 3; // Define el orden en el panel de navegación
 
     /* // Se utiliza para mandar a llamar en la busqueda general de todo el sistema
     protected static ?string $recordTitleAttribute = 'category_name';*/

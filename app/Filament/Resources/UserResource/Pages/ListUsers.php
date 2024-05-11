@@ -24,7 +24,6 @@ class ListUsers extends ListRecords
         return [
             Actions\CreateAction::make()
                 ->label('Crear Usuario')
-                ->label('Crear Producto')
                 ->icon('heroicon-o-user'),
             ExportAction::make()
                 ->exporter(UsersExporter::class)

@@ -20,9 +20,12 @@ use Filament\Tables\Table; // Importa la clase Table de Filament para la constru
 use Illuminate\Database\Eloquent\Builder; // Importa la clase Builder para consultas Eloquent
 use Illuminate\Database\Eloquent\SoftDeletingScope; // Importa el alcance de eliminación suave de Eloquent
 use Filament\Actions\Exports\Enums\ExportFormat; // Importa el formato de exportación de Filament
+use Filament\Forms\Components\Select;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Factories\Relationship;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
 {
@@ -30,12 +33,13 @@ class UserResource extends Resource
     protected static ?string $model = User::class;
 
     // Establece el icono de navegación para este recurso
-    protected static ?string $navigationIcon = 'heroicon-o-user';
+    protected static ?string $navigationIcon = 'heroicon-m-user-group';
 
     // Se define el nombre de la pagina en el panel administrativo
     protected static ?string $navigationLabel = 'Usuarios';
 
-    
+    protected static ?int $navigationSort = 5; // Define el orden en el panel de navegación
+
 
     public static function getGloballySearchableAttributes(): array
     {
@@ -70,10 +74,18 @@ class UserResource extends Resource
 
                 TextInput::make('password') // Campo de entrada de texto para la contraseña del usuario
                     ->label('Contraseña') // Etiqueta del campo
-                    ->hiddenOn('edit') // Oculta este campo en la edición de registros existentes
+                    //->hiddenOn('edit') // Oculta este campo en la edición de registros existentes
                     ->password() // Campo de contraseña
                     ->revealable() // Permite revelar la contraseña
                     ->required(), // Campo requerido
+
+
+
+                Select::make('roles')
+                    ->relationship('roles', 'name')
+                    ->multiple()
+                    ->searchable()
+                    ->preload(),
             ]);
     }
 
@@ -100,26 +112,38 @@ class UserResource extends Resource
                     ->label('Fecha Creación') // Etiqueta de la columna
                     ->searchable() // Permite la búsqueda en esta columna
                     ->sortable(), // Permite ordenar los resultados por esta columna
+
+                TextColumn::make('roles.name') // Columna para mostrar el nombre del usuario
+                    ->label('Roles') // Etiqueta de la columna
+                    ->searchable() // Permite la búsqueda en esta columna
+                    ->sortable(), // Permite ordenar los resultados por esta columna
             ])
             ->filters([
                 SelectFilter::make('name')
-                ->options(function () {
-                    // Consulta la base de datos para obtener los nombres de las categorías disponibles
-                    return User::pluck('name', 'name')->toArray();
-                })
-                ->label('Nombre')
-                ->searchable()
-                ->preload()
-                ->multiple(),
+                    ->options(function () {
+                        // Consulta la base de datos para obtener los nombres de las categorías disponibles
+                        return User::pluck('name', 'name')->toArray();
+                    })
+                    ->label('Nombre')
+                    ->searchable()
+                    ->preload()
+                    ->multiple(),
                 SelectFilter::make('email')
-                ->options(function () {
-                    // Consulta la base de datos para obtener los nombres de las categorías disponibles
-                    return User::pluck('email', 'email')->toArray();
-                })
-                ->label('Correo Electrónico')
-                ->searchable()
-                ->preload()
-                ->multiple(),
+                    ->options(function () {
+                        // Consulta la base de datos para obtener los nombres de las categorías disponibles
+                        return User::pluck('email', 'email')->toArray();
+                    })
+                    ->label('Correo Electrónico')
+                    ->searchable()
+                    ->preload()
+                    ->multiple(),
+
+                SelectFilter::make('roles')
+                    ->relationship('roles', 'name')
+                    ->label('Roles')
+                    ->searchable()
+                    ->preload()
+                    ->multiple(),
 
 
                 Tables\Filters\TrashedFilter::make(),
@@ -135,20 +159,20 @@ class UserResource extends Resource
                 Tables\Actions\DeleteAction::make(), // Acción para eliminar un registro
 
                 Tables\Actions\RestoreAction::make()
-                ->icon('heroicon-m-arrow-uturn-down')
-                ->color('success'),
+                    ->icon('heroicon-m-arrow-uturn-down')
+                    ->color('success'),
                 Tables\Actions\ForceDeleteAction::make()
-                ->icon('heroicon-m-backspace')
-                ->color('warning'),
+                    ->icon('heroicon-m-backspace')
+                    ->color('warning'),
 
                 Tables\Actions\Action::make('download')
-                ->label('PDF')
-                ->icon('heroicon-o-document-arrow-down')
-                ->color('')
-                ->url(
-                    fn (User $record): string => route('generate-pdf.user.report', ['record' => $record]),
-                    shouldOpenInNewTab: true
-                )
+                    ->label('PDF')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->color('')
+                    ->url(
+                        fn (User $record): string => route('generate-pdf.user.report', ['record' => $record]),
+                        shouldOpenInNewTab: true
+                    )
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

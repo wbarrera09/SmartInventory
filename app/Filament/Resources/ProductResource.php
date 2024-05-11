@@ -42,11 +42,12 @@ class ProductResource extends Resource
     protected static ?string $model = Product::class;
 
     // Establece el icono de navegación para este recurso
-    protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
+    protected static ?string $navigationIcon = 'heroicon-m-shopping-bag';
 
     // Se define el nombre de la pagina en el panel administrativo
     protected static ?string $navigationLabel = 'Productos';
 
+    protected static ?int $navigationSort = 4; // Define el orden en el panel de navegación
 
 
 
