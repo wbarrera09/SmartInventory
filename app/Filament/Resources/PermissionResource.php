@@ -35,6 +35,8 @@ class PermissionResource extends Resource
                 Forms\Components\TextInput::make('guard_name')
                     ->required()
                     ->maxLength(255),
+
+                    // pendientes comentarios
             ]);
     }
 
