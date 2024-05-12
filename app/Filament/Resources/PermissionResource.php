@@ -32,11 +32,12 @@ class PermissionResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('guard_name')
-                    ->required()
-                    ->maxLength(255),
-
-                    // pendientes comentarios
+                    Forms\Components\Select::make('guard_name')
+                    ->label('Tipo')
+                    ->options([
+                        'web' => 'Web',
+                        'api' => 'API',
+                    ])
             ]);
     }
 
@@ -45,9 +46,19 @@ class PermissionResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable()
+                    ->label('Permiso'),
                 Tables\Columns\TextColumn::make('guard_name')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable()
+                    ->label('Tipo'),
+
+                    Tables\Columns\TextColumn::make('roles.name')
+                    ->sortable()
+                    ->searchable()
+                    ->label('Roles'),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

@@ -2,8 +2,10 @@
 
 namespace App\Policies;
 
+use App\Filament\Exports\UsersExporter;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+
 
 class UserPolicy
 {
@@ -12,8 +14,7 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-
-        return $user->hasAnyRole(['SuperAdmin']);
+        return $user->hasAnyRole(['SuperAdmin','Admin']);
     }
 
     /**
@@ -21,8 +22,7 @@ class UserPolicy
      */
     public function view(User $user, User $model): bool
     {
-        return $user->hasAnyRole(['SuperAdmin']);
-
+        return $user->hasAnyRole(['SuperAdmin','Admin']);
 
     }
 
@@ -32,7 +32,6 @@ class UserPolicy
     public function create(User $user): bool
     {
         return $user->hasAnyRole(['SuperAdmin']);
-
     }
 
     /**
@@ -40,8 +39,8 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        return $user->hasAnyRole(['SuperAdmin']);
 
+        return $user->hasAnyRole(['SuperAdmin']);
 
     }
 
@@ -52,7 +51,6 @@ class UserPolicy
     {
         return $user->hasAnyRole(['SuperAdmin']);
 
-
     }
 
     /**
@@ -61,7 +59,6 @@ class UserPolicy
     public function restore(User $user, User $model): bool
     {
         return $user->hasAnyRole(['SuperAdmin']);
-
 
     }
 
@@ -72,8 +69,6 @@ class UserPolicy
     {
         return $user->hasAnyRole(['SuperAdmin']);
 
-
     }
-
     
 }

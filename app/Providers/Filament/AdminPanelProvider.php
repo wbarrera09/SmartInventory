@@ -64,7 +64,7 @@ class AdminPanelProvider extends PanelProvider
             ->databaseNotifications() // Habilitar notificaciones de base de datos
             ->userMenuItems([ // Ítem del menú del usuario
                 MenuItem::make()
-                    ->label('Admin')
+                    ->label('Ajustes')
                     ->icon('heroicon-o-cog-6-tooth') // Icono del menú
                     ->url('/admin'), // URL del menú
                 'profile' => MenuItem::make()->label('Editar perfil')
@@ -122,7 +122,7 @@ class AdminPanelProvider extends PanelProvider
             ])
 
 
-          //  ->plugin(FilamentSpatieRolesPermissionsPlugin::make()) // Se utiliza para mandar a llamar el plugin de permisos y roles
+           //  ->plugin(FilamentSpatieRolesPermissionsPlugin::make()) // Se utiliza para mandar a llamar el plugin de permisos y roles
             // Se omite este plugin ya que tenia un defecto y es que no se podia ocultar para los otros roles
             // al ser un plugin se precede a generar de manera manual con los recursos que este generó dbb
 
