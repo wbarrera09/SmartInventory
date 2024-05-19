@@ -11,6 +11,7 @@ use Filament\Actions\ExportAction;
 use Filament\Actions\ImportAction;
 use Filament\Resources\Pages\ListRecords; // Importa la clase ListRecords del framework Filament
 use Illuminate\Contracts\View\View;
+use App\Models\User;
 
 // Define una clase llamada ListCategories que extiende de ListRecords
 class ListCategories extends ListRecords
@@ -31,12 +32,24 @@ class ListCategories extends ListRecords
                 ->exporter(CategoryExporter::class)
                 ->label('Exportar')
                 ->color('success')
-                ->icon('heroicon-o-document-arrow-down'),
+                ->icon('heroicon-o-document-arrow-down')
+                ->visible(function() {
+                    /** @var User */
+                    $user = auth()->user();
+                    return $user->hasAnyRole(['SuperAdmin','Admin']);
+
+                }),
             ImportAction::make()
                 ->importer(CategoryImporter::class)
                 ->label('Importar')
                 ->color('slate')
                 ->icon('heroicon-o-document-arrow-up')
+                ->visible(function() {
+                    /** @var User */
+                    $user = auth()->user();
+                    return $user->hasAnyRole(['SuperAdmin']);
+
+                })
 
         ];
     }

@@ -31,7 +31,7 @@ class ProductPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasAnyRole(['SuperAdmin','Admin','Empleado']);
+        return $user->hasAnyRole(['SuperAdmin','Admin']);
 
     }
 

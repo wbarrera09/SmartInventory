@@ -175,10 +175,22 @@ class UserResource extends Resource
                         fn (User $record): string => route('generate-pdf.user.report', ['record' => $record]),
                         shouldOpenInNewTab: true
                     )
+                    ->visible(function() {
+                        /** @var User */
+                        $user = auth()->user();
+                        return $user->hasAnyRole(['SuperAdmin']);
+    
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(), // Acción de eliminación masiva de registros
+                    Tables\Actions\DeleteBulkAction::make() // Acción de eliminación masiva de registros
+                    ->visible(function() {
+                        /** @var User */
+                        $user = auth()->user();
+                        return $user->hasAnyRole(['SuperAdmin']);
+    
+                    }),
                     ExportBulkAction::make() // Acción de exportación masiva de registros
                         ->exporter(UsersExporter::class) // Utiliza el exportador personalizado de usuarios
                         ->formats([

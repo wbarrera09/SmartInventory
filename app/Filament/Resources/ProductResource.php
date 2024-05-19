@@ -426,6 +426,12 @@ class ProductResource extends Resource
                     fn (Product $record): string => route('generate-pdf.product.report', ['record' => $record]),
                     shouldOpenInNewTab: true
                 )
+                ->visible(function() {
+                    /** @var User */
+                    $user = auth()->user();
+                    return $user->hasAnyRole(['SuperAdmin']);
+
+                }),
                 
 
             ],) //position: ActionsPosition::BeforeCells)
@@ -433,7 +439,13 @@ class ProductResource extends Resource
             
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(), // Acción de eliminación masiva de registros
+                    Tables\Actions\DeleteBulkAction::make() // Acción de eliminación masiva de registros
+                    ->visible(function() {
+                        /** @var User */
+                        $user = auth()->user();
+                        return $user->hasAnyRole(['SuperAdmin']);
+    
+                    }),
                     ExportBulkAction::make() // Acción de exportación masiva de registros
                         ->exporter(ProductExporter::class) // Utiliza el exportador personalizado de productos
                         ->formats([

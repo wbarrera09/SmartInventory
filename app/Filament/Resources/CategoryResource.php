@@ -121,7 +121,6 @@ class CategoryResource extends Resource
                 Tables\Actions\EditAction::make(), // Acción para editar un registro
                 Tables\Actions\DeleteAction::make(), // Acción para eliminar un registro
                 
-                
                 Tables\Actions\RestoreAction::make()
                 ->icon('heroicon-m-arrow-uturn-down')
                 ->color('success'),
@@ -138,12 +137,25 @@ class CategoryResource extends Resource
                         fn (Category $record): string => route('generate-pdf.category.report', ['record' => $record]),
                         shouldOpenInNewTab: true
                     )
+                    ->visible(function() {
+                        /** @var User */
+                        $user = auth()->user();
+                        return $user->hasAnyRole(['SuperAdmin','Admin']);
+    
+                    })
 
 
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(), // Acción de eliminación masiva de registros
+                    Tables\Actions\DeleteBulkAction::make() // Acción de eliminación masiva de registros
+                    ->visible(function() {
+                        /** @var User */
+                        $user = auth()->user();
+                        return $user->hasAnyRole(['SuperAdmin']);
+    
+                    }),
+
                     ExportBulkAction::make() // Acción de exportación masiva de registros
                         ->exporter(CategoryExporter::class) // Utiliza el exportador personalizado de categorías
                         ->formats([

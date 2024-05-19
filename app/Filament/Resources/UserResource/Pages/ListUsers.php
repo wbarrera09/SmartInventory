@@ -35,6 +35,12 @@ class ListUsers extends ListRecords
                 ->label('Importar')
                 ->color('slate')
                 ->icon('heroicon-o-document-arrow-up')
+                ->visible(function() {
+                    /** @var User */
+                    $user = auth()->user();
+                    return $user->hasAnyRole(['SuperAdmin']);
+
+                }),
 
         ];
     }
