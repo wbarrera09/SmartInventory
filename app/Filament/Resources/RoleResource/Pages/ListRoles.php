@@ -14,7 +14,7 @@ class ListRoles extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-            ->label('Crear Rol'),
+            ->label('Crear Rol'), // etiqueta del nombre personalizado de la accion
         ];
     }
 }

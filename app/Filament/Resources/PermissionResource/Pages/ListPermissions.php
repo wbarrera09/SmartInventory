@@ -14,7 +14,7 @@ class ListPermissions extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-            ->label('Crear Permiso'),
+            ->label('Crear Permiso'), // etiqueta para personalizar el nombre de la accion
         ];
     }
 }

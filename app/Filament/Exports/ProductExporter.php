@@ -21,7 +21,7 @@ class ProductExporter extends Exporter
     {
         return [
 
-
+            // Se definen el nombre de las columnas a exportar
             ExportColumn::make('id', 'id'),
             ExportColumn::make('categories.category_name', 'categories.category_name'),
             ExportColumn::make('description', 'description'),
