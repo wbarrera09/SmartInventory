@@ -44,13 +44,14 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarCollapsibleOnDesktop() // Permite mostrar y ocultar el panel administrativo
 
             ->topNavigation()
-            // ->brandLogo(asset('images/unab_logo.png'))
-            //->brandLogoHeight('4rem')
+            ->brandLogo(asset('images/smart-inventory-logo.svg'))
+            ->brandLogoHeight('6rem')
+            ->favicon(asset('images/smart-inventory-icon.svg'))
 
-            ->brandName('Smart Inventory')
+            // ->brandName('Smart Inventory')
 
 
-            ->defaultThemeMode(ThemeMode::Light)
+            ->defaultThemeMode(ThemeMode::Dark)
 
 
 
@@ -88,12 +89,11 @@ class AdminPanelProvider extends PanelProvider
             ])
 
 
-
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources') // Descubrir recursos
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages') // Descubrir páginas
             ->pages([ // Definir páginas
                 Pages\Dashboard::class, // Página del panel de control
-                
+
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets') // Descubrir widgets
             ->widgets([ // Definir widgets
@@ -122,7 +122,7 @@ class AdminPanelProvider extends PanelProvider
             ])
 
 
-           //  ->plugin(FilamentSpatieRolesPermissionsPlugin::make()) // Se utiliza para mandar a llamar el plugin de permisos y roles
+            //  ->plugin(FilamentSpatieRolesPermissionsPlugin::make()) // Se utiliza para mandar a llamar el plugin de permisos y roles
             // Se omite este plugin ya que tenia un defecto y es que no se podia ocultar para los otros roles
             // al ser un plugin se precede a generar de manera manual con los recursos que este generó dbb
 
@@ -130,5 +130,15 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([ // Middleware de autenticación
                 Authenticate::class, // Middleware de autenticación de Filament
             ]);
+
+            
+
+
+
+            
     }
+
+    
 }
+
+

@@ -430,7 +430,7 @@ class ProductResource extends Resource
                     /** @var User */
                     $user = auth()->user();
                     return $user->hasAnyRole(['SuperAdmin']);
-
+    
                 }),
                 
 

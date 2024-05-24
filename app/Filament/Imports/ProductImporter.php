@@ -14,6 +14,8 @@ class ProductImporter extends Importer
     public static function getColumns(): array
     {
         return [
+
+            // Se definen las columnas a importar
             ImportColumn::make('description')
             ->label('Descripción')
             ->requiredMapping()

@@ -42,5 +42,3 @@ Route::prefix('generate-pdf')->name('generate-pdf.')
             Route::get('user-report/{record}', 'user')->name('user.report');
         });
     });
-
-

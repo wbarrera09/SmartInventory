@@ -174,13 +174,7 @@ class UserResource extends Resource
                     ->url(
                         fn (User $record): string => route('generate-pdf.user.report', ['record' => $record]),
                         shouldOpenInNewTab: true
-                    )
-                    ->visible(function() {
-                        /** @var User */
-                        $user = auth()->user();
-                        return $user->hasAnyRole(['SuperAdmin']);
-    
-                    }),
+                    ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

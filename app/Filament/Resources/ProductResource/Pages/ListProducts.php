@@ -32,7 +32,13 @@ class ListProducts extends ListRecords
             ->exporter(ProductExporter::class)
             ->label('Exportar')
             ->icon('heroicon-o-document-arrow-down')
-            ->color('success'),
+            ->color('success')
+            ->visible(function() {
+                /** @var User */
+                $user = auth()->user();
+                return $user->hasAnyRole(['SuperAdmin']);
+
+            }),
             ImportAction::make()
             ->importer(ProductImporter::class)
             ->label('Importar')
