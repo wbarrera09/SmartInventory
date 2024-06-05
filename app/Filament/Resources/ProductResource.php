@@ -121,7 +121,8 @@ class ProductResource extends Resource
                     ->label('Descripción'),
                 Forms\Components\TextInput::make('stock')
                     ->required() // Campo requerido
-                    ->numeric(), // Se espera un valor numérico
+                    ->numeric() // Se espera un valor numérico
+                    ->rules(['min:1']), // Se asegura que el valor sea mayor que cero
                 Forms\Components\TextInput::make('location')
                     ->required()
                     ->maxLength(50)

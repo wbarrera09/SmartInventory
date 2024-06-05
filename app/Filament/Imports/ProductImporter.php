@@ -22,7 +22,7 @@ class ProductImporter extends Importer
             ->rules(['required', 'max:255']),
             ImportColumn::make('stock')
             ->requiredMapping()
-            ->rules(['required', 'numeric', 'min:0']),
+            ->rules(['required', 'numeric', 'min:1']),
             ImportColumn::make('location')
             ->label('Ubicación')
             ->requiredMapping()
